@@ -44,6 +44,23 @@ function getDepartments() {
     return $departments;
 }
 
+function getCoursesInDepartment($departmentName) {
+    global $db;
+
+    $query = "SELECT *
+              FROM Course NATURAL JOIN belongs_to
+              WHERE departmentName = :departmentName";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':departmentName', $departmentName);
+    $statement->execute();
+
+    $courses = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $statement->closeCursor();
+
+    return $courses;
+}
+
 
 
 
