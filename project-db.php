@@ -1,22 +1,50 @@
 <?php
 
-function getNotes($department, $course, $minRating) {
+function getNotes($courseName, $averageRating) {
     global $db;
 
-    $query = "select * from notes 
-              where department=:department 
-              AND course=:course 
-              AND rating>=:minRating";
+    $query = "SELECT * FROM Notes NATURAL JOIN Course 
+              WHERE courseName = :courseName 
+              AND averageRating >= :averageRating";
 
-    $statement->bindValue(':department', $department);
-    $statement->bindValue(':course', $course);
-    $statement->bindValue(':minRating', $minRating);
+    $statement = $db->prepare($query);
+    $statement->bindValue(':courseName', $courseName);
+    $statement->bindValue(':averageRating', $averageRating);
 
     $statement->execute();
     $results = $statement->fetchAll();
     $statement->closeCursor();
+    
     return $results;
 }
+
+function getAllNotes() {
+    global $db;
+
+    $query = "SELECT * FROM Notes";
+
+    $statement = $db->prepare($query);
+    $statement->execute();
+    
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    
+    return $results;
+}
+
+function getDepartments() {
+    global $db;
+
+    $query = "SELECT departmentName from Department";
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $departments = $statement->fetchAll(PDO::FETCH_COLUMN);
+    $statement->closeCursor();
+
+    return $departments;
+}
+
+
 
 
 
