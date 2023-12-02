@@ -1,14 +1,13 @@
 <?php
-    $username = 'chf2pn'; 
+    $username = 'ay3xqa'; 
     $password = 'Fall2023';
     $host = 'mysql01.cs.virginia.edu';
-    $dbname = 'chf2pn';
+    $dbname = 'ay3xqa';
     $dsn = "mysql:host=$host;dbname=$dbname";
 
     try 
     {
         $db = new PDO($dsn, $username, $password);
-    
     }
     catch (PDOException $e) 
     {
