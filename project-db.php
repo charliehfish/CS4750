@@ -92,5 +92,26 @@ function addNotes($courseId, $notesUrl, $date, $description, $studentId) {
     }
 }
 
+function rateNotes($notesId, $rating, $raterId) {
+    global $db;
+    try {
+        $query = "INSERT INTO Rates VALUES (:raterId, :notesId, :rating)";
+        
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':raterId', $raterId);
+        $stmt->bindValue(':notesId', $notesId);
+        $stmt->bindValue(':rating', $rating);
+        $stmt->execute();
+        $stmt->closeCursor();
+
+        echo "Your rating has been added successfully!";
+    } catch (PDOException $e) {
+        if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+            echo "Not a valid Student ID. Please try again!";
+        } else {
+            echo "You have already rated these notes!";
+        }
+    }
+}
 
 ?>
