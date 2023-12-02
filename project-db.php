@@ -114,4 +114,41 @@ function rateNotes($notesId, $rating, $raterId) {
     }
 }
 
+function provideFeedback($email, $feedback) {
+    global $db;
+    try {
+        $query = "SELECT * FROM Feedback";
+        $fb_stmt = $db->prepare($query);
+        $fb_stmt->execute();
+        $count = 0;
+        while ($fb_stmt->fetch()) {
+            $count++;
+        }
+        $fb_id = $count+1;
+
+        $query = "INSERT INTO Provides VALUES (:profEmail, :feedbackID)";
+        
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':profEmail', $email);
+        $stmt->bindValue(':feedbackID', $fb_id);
+        $stmt->execute();
+        $stmt->closeCursor();
+
+        $query = "INSERT INTO Feedback VALUES (:feedbackID, :description)";
+        
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':feedbackID', $fb_id);
+        $stmt->bindValue(':description', $feedback);
+        $stmt->execute();
+
+        echo "Feedback added successfully!";
+    } catch (PDOException $e) {
+        if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+            echo "Not a recognized Professor email. Please try again!";
+        } else {
+            echo "Error in adding feedback". $e->getMessage();;
+        }
+    }
+}
+
 ?>
