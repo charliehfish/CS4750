@@ -1,14 +1,14 @@
 <?php
 
-function getNotes($courseName, $averageRating) {
+function getNotes($courseID, $averageRating) {
     global $db;
 
     $query = "SELECT * FROM Notes NATURAL JOIN Course 
-              WHERE courseName = :courseName 
+              WHERE courseID = :courseID 
               AND averageRating >= :averageRating";
 
     $statement = $db->prepare($query);
-    $statement->bindValue(':courseName', $courseName);
+    $statement->bindValue(':courseID', $courseID);
     $statement->bindValue(':averageRating', $averageRating);
 
     $statement->execute();
@@ -38,7 +38,7 @@ function getDepartments() {
     $query = "SELECT departmentName from Department";
     $statement = $db->prepare($query);
     $statement->execute();
-    $departments = $statement->fetchAll(PDO::FETCH_COLUMN);
+    $departments = $statement->fetchAll();
     $statement->closeCursor();
 
     return $departments;
