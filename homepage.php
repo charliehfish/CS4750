@@ -2,15 +2,16 @@
 require("connect-db.php");
 require("project-db.php");
 
-$allNotes = getAllNotes();
+$selectedDepartment = '';
+$selectedCourses = [];
 
-$course = "testCourse";
-$minRating = 0;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!empty($_POST['dptBtn'])) {
+        $selectedDepartment = $_POST['department'];
 
-#$notes = getNotes($course, $minRating);
-
-
-
+        $selectedCourses = getCoursesInDepartment($selectedDepartment);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,20 +20,29 @@ $minRating = 0;
     <title>Homepage for Our Project</title>
 </head>
 <body>
-    <form id="departmentForm" method="post" action="">
-        <label for="department">Select Department:</label>
-        <select id="department" name="department">
-            <?php
-            $departments = getDepartments();
-            foreach ($departments as $department) {
-                echo "<option value=\"$department\">$department</option>";
-            }
-            ?>
-        </select>
-        <br>
+    <?php if (!$selectedDepartment) : ?>
+        <form id="departmentForm" method="post" action="">
+            <label for="department">Select Department:</label>
+            <select id="department" name="department">
+                <?php
+                $departments = getDepartments();
+                foreach ($departments as $department) {
+                    echo "<option value='" . $department['departmentName'] . "'>" . $department['departmentName'] . "</option>";
+                }
+                ?>
+            </select>
+            <br>
+            <input type="submit" value="Submit" name="dptBtn">
+        </form>
+    <?php endif; ?>
 
-        <!-- Submit Button -->
-        <input type="submit" value="Submit">
-    </form>
+    <?php if ($selectedDepartment) : ?>
+        <p>
+            Test
+        </p>
+    <?php endif; ?>
+
+
+
 </body>
 </html>
