@@ -4,12 +4,15 @@ require("project-db.php");
 
 $selectedDepartment = '';
 $selectedCourses = [];
-
+$notes = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['dptBtn'])) {
         $selectedDepartment = $_POST['department'];
 
         $selectedCourses = getCoursesInDepartment($selectedDepartment);
+    }
+    else if (!empty($_POST['courseBtn'])) {
+        $notes = getNotes($_POST['course'], $_POST['averageRating']);
     }
 }
 ?>
@@ -17,7 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Homepage for Our Project</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <?php if (!$selectedDepartment) : ?>
@@ -39,10 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if ($selectedDepartment) : ?>
         <form id="courseForm" method ="post" action="">
             <label for="course">Select Course:</label>
-            <select id="coruse" name="course">
+            <select id="course" name="course">
                 <?php
                 foreach ($selectedCourses as $course) {
-                    echo "<option value='" . $course['courseName'] . "'>" . $course['courseName'] . "</option>";
+                    echo "<option value='" . $course['courseID'] . "'>" . $course['courseID'] . "</option>";
                 }
                 ?>
             </select>
