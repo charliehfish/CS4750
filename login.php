@@ -1,9 +1,9 @@
 <?php
-$link = mysqli_connect('localhost', 'root', '', 'demo');
+require("connect-db.php");
 
 // Check connection
-if($link === false){
-    die("ERROR: Could not connect. " . mysqli_connect_error());
+if($db === false){
+    die("ERROR: Could not connect. " . $db->errorInfo()[2]);
 }
 
 // Retrieve email, username, last name, and password from form
@@ -13,10 +13,15 @@ $lname = $_POST['lname'];
 $password = $_POST['password'];
 
 // Query the database
-$sql = "SELECT * FROM users WHERE email = '$email' AND username = '$uname' AND last_name = '$lname' AND password = '$password'";
-$result = mysqli_query($link, $sql);
+$sql = "SELECT * FROM users WHERE email = :email AND username = :uname AND last_name = :lname AND password = :password";
+$statement = $db->prepare($sql);
+$statement->bindValue(':email', $email);
+$statement->bindValue(':uname', $uname);
+$statement->bindValue(':lname', $lname);
+$statement->bindValue(':password', $password);
+$statement->execute();
 
-if(mysqli_num_rows($result) > 0){
+if($statement->rowCount() > 0){
     // Start the session and redirect to a different page
     session_start();
     $_SESSION['loggedin'] = true;
