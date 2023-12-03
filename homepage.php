@@ -37,9 +37,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <?php if ($selectedDepartment) : ?>
-        <p>
-            Test
-        </p>
+        <form id="courseForm" method ="post" action="">
+            <label for="course">Select Course:</label>
+            <select id="coruse" name="course">
+                <?php
+                foreach ($selectedCourses as $course) {
+                    echo "<option value='" . $course['courseName'] . "'>" . $course['courseName'] . "</option>";
+                }
+                ?>
+            </select>
+            <label for="averageRating">Minimum Rating:</label>
+            <input type="number" id="averageRating" name="averageRating" value="<?= $averageRating ?>" min="0" max="5">
+            <br>
+            <input type="submit" value="Get Notes" name="courseBtn">
+        </form>
     <?php endif; ?>
 
 
