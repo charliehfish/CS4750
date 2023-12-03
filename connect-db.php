@@ -2,12 +2,13 @@
     $username = 'chf2pn'; 
     $password = 'Fall2023';
     $host = 'mysql01.cs.virginia.edu';
-    $dbname = 'chf2pn';
+    $dbname = 'chf2pn_c';
     $dsn = "mysql:host=$host;dbname=$dbname";
 
     try 
     {
         $db = new PDO($dsn, $username, $password);
+        #echo "<p>Connected</p>";
     
     }
     catch (PDOException $e) 
