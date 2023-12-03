@@ -25,8 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Homepage for Our Project</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+<header>
+    <h1>Retrieve Notes!</h1>
+</header>
 <body>
-    <?php if (!$selectedDepartment) : ?>
+    <?php if (!$selectedDepartment && !$notes) : ?>
         <form id="departmentForm" method="post" action="">
             <label for="department">Select Department:</label>
             <select id="department" name="department">
@@ -42,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     <?php endif; ?>
 
-    <?php if ($selectedDepartment) : ?>
+    <?php if ($selectedDepartment && !$notes) : ?>
         <form id="courseForm" method ="post" action="">
             <label for="course">Select Course:</label>
             <select id="course" name="course">
@@ -59,6 +62,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     <?php endif; ?>
 
+                
+    <?php
+    if ($notes) {
+        foreach($notes as $note) {
+            echo "<p>Description: {$note['description']} <br>";
+            echo "Average Rating: {$note['averageRating']} <br>";
+            echo "Notes URL: <a href='{$note['notesURL']}'>{$note['notesURL']}</a></p>";
+        }
+    } else {
+        echo "No notes selected.";
+    }
+    ?> 
 
 
 </body>
