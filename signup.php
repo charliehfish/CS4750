@@ -39,7 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
 }
 ?>
-
+<body style="background-color:#f7f7ff;">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <br>
+  <div class="container" style="display: flex;  flex-direction: column; justify-content:center">
+  <div style='display: flex; flex-direction: column; align-items: center;'>
+  <h1 class="display-4">Sign Up for Notester!</h1>
 <form action="signup.php" method="post">
     Student ID: <input type="text" name="studentID" maxlength="15"><br>
     Email: <input type="email" name="email" maxlength="255"><br>
@@ -47,5 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     First Name: <input type="text" name="first_name" maxlength="255"><br>
     Last Name: <input type="text" name="last_name" maxlength="255"><br>
     Year: <input type="number" name="year" min="1"><br>
+    <div style='display: flex; justify-content:center;'>
     <input type="submit" value="Sign Up">
+    </div>
 </form>
+</div>
+</div>
+</body>
+</html>
