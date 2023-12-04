@@ -14,9 +14,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $last_name = $_POST['last_name'];
     $year = $_POST['year'];
 
-    $query = "INSERT INTO Student (studentID, email, pswd, first_name, last_name, year) VALUES (?, ?, ?, ?, ?, ?)";
+    // Check if a user with the provided email already exists
+    $query = "SELECT * FROM Student WHERE email = ?";
     $stmt = $db->prepare($query);
-    $stmt->execute([$studentID, $email, $pswd, $first_name, $last_name, $year]);
+    $stmt->execute([$email]);
+
+    if ($stmt->rowCount() > 0) {
+        echo "An account with this email already exists.";
+    } else {
+        $query = "INSERT INTO Student (studentID, email, pswd, first_name, last_name, year) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$studentID, $email, $pswd, $first_name, $last_name, $year]);
+    }
 }
 ?>
 
