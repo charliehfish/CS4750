@@ -26,10 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $db->prepare($query);
         $stmt->execute([$studentID, $email, $pswd, $first_name, $last_name, $year]);
     }
+
+    header("Location: homepage.php");
+    exit();
 }
 ?>
 
-<form action="homepage.php" method="post">
+<form action="signup.php" method="post">
     Student ID: <input type="text" name="studentID" maxlength="15"><br>
     Email: <input type="email" name="email" maxlength="255"><br>
     Password: <input type="password" name="pswd" maxlength="255"><br>
