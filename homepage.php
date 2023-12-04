@@ -121,14 +121,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
         <a href='homepage.php'>Return to start</a>
-        <?php
-        // Check if the user is not logged in
-        if (!isset($_SESSION['email'])) {
-            echo "<a href='login.php'>Log In</a>";
-            echo "<a href='signup.php'>Sign Up</a>";
-        }
-        ?>
+        
     </div>
+    <?php
+        // Check if the user is not logged in
+       if (!isset($_SESSION['email'])) {
+        echo "<div class='d-flex justify-content-center fixed-bottom mb-3'>";
+        echo "<a href='login_form.php' class='btn btn-primary mr-2'>Log In</a>";
+        echo "<a href='signup.php' class='btn btn-secondary'>Sign Up</a>";
+        echo "</div>";
+    } else {
+        echo "<div class='d-flex justify-content-center fixed-bottom mb-3'>";
+        echo "<a href='logout.php' class='btn btn-primary'>Log Out</a>";
+        echo "</div>";
+    }
+        ?>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

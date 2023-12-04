@@ -44,4 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     Student ID: <input type="text" name="studentID" maxlength="15"><br>
     Email: <input type="email" name="email" maxlength="255"><br>
     Password: <input type="password" name="pswd" maxlength="255"><br>
-    First Name: <
+    First Name: <input type="text" name="first_name" maxlength="255"><br>
+    Last Name: <input type="text" name="last_name" maxlength="255"><br>
+    Year: <input type="number" name="year" min="1"><br>
+    <input type="submit" value="Sign Up">
+</form>
