@@ -1,13 +1,20 @@
 <?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['email'])) {
+    header("Location: login_form.php");
+    exit;
+}
+
 require("connect-db.php");
 require("project-db.php");
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
    if (!empty($_POST['addBtn']))
    {
-    addNotes($_POST['courseId'], $_POST['notesUrl'], date('Y-m-d'), $_POST['description'], $_POST['studentId']);
+    addNotes($_POST['courseId'], $_POST['notesUrl'], date('Y-m-d'), $_POST['description'], $_SESSION['studentId']);
    }
 }
 ?>
@@ -45,10 +52,6 @@ table {
     <div class="row mb-3 mx-3">
      Course ID:
     <input type="text" placeholder='i.e CS4750' class="form-control" name="courseId" required /> 
-    </div> 
-    <div class="row mb-3 mx-3">
-     Student ID:
-    <input type="text" placeholder='i.e xy1z23' class="form-control" name="studentId" required /> 
     </div> 
     <div class="row mb-3 mx-3">
      Notes URL:

@@ -56,8 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <header>
-        <h1>Retrieve notes, <a href='addNotes.php'>add your own,</a> or <a href='giveRating.php'>leave a review!</a>
-        </h1>
+        <?php if (isset($_SESSION['userType']) && $_SESSION['userType'] === 'student'): ?>
+            <h1>Retrieve notes, <a href='addNotes.php'>add your own,</a>, <a href='giveRating.php'>leave a review!</a>, or <a href='testingUpdate.php'>update a review!</a></h1>
+        <?php elseif (isset($_SESSION['userType']) && $_SESSION['userType'] === 'professor'): ?>
+            <h1><a href='provideFeedback.php'>Leave feedback!</a></h1>
+        <?php endif; ?>
     </header>
 
     <div id="departmentSection" class="container">
@@ -131,6 +134,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<a href='signup.php' class='btn btn-secondary'>Sign Up</a>";
         echo "</div>";
     } else {
+        echo "<hr>";
+        if (isset($_SESSION['userType']) && $_SESSION['userType'] === 'student'){
+            echo "<div class='d-flex justify-content-center mb-3'>";
+            echo "<a href='User.php' class='btn btn-primary'>View Profile!</a>";
+            echo "</div>";
+        }
+        else if (isset($_SESSION['userType']) && $_SESSION['userType'] === 'professor'){
+            echo "<div class='d-flex justify-content-center mb-3'>";
+            echo "<a href='Professor.php' class='btn btn-primary'>View Profile</a>";
+            echo "</div>";
+        }
         echo "<div class='d-flex justify-content-center fixed-bottom mb-3'>";
         echo "<a href='login_form.php' class='btn btn-primary'>Log Out</a>";
         echo "</div>";

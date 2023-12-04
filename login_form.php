@@ -35,12 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['email'] = $email;
         $studentId = substr($email, 0, strpos($email, '@'));
         $_SESSION['studentId'] = $studentId;
+        $_SESSION['userType'] = "student";
         header("Location: User.php");
         exit;
-    } elseif ($stmtt->rowCount() > 0) {
+    } else if ($stmtt->rowCount() > 0) {
         $_SESSION['professorEmail'] = $email; 
+        $_SESSION['email'] = $email; 
         $profId = substr($email, 0, strpos($email, '@'));
-        $_SESSION['professorId'] = $profId;   
+        $_SESSION['professorId'] = $profId;  
+        $_SESSION['userType'] = "professor"; 
         header("Location: Professor.php");
     } else {
         echo "Invalid email or password.";

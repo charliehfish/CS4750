@@ -8,9 +8,9 @@ if (!isset($_SESSION['professorEmail'])) {
 }
 
 
-
 require("connect-db.php");
 require("project-db.php");
+$list_of_courses = getCoursesTaught($_SESSION['professorEmail']);
 $list_of_feedback = getFeedbackById($_SESSION['professorEmail']);
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -70,6 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <body>
     <div class="container">
         <h1>Welcome <?php echo $_SESSION['professorId'] ?></h1>
+        <div class="table-container">
+            <h4>Courses Taught</h4>
+            <?php foreach ($list_of_courses as $course): ?>
+                <li><?php echo $course['courseID']; ?></li>
+            <?php endforeach; ?>
+            </br>
+        </div>
         <div class="table-container">
         <table class="w3-table w3-bordered w3-card-4 center">
             <thead>

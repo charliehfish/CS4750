@@ -1,13 +1,20 @@
 <?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['professorEmail'])) {
+    header("Location: login_form.php");
+    exit;
+}
+
 require("connect-db.php");
 require("project-db.php");
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
    if (!empty($_POST['feedbackBtn']))
    {
-    provideFeedback($_POST['professorEmail'], $_POST['feedback']);
+    provideFeedback($_SESSION['professorEmail'], $_POST['notesId'],$_POST['feedback']);
    }
 }
 ?>
@@ -43,8 +50,8 @@ table {
   <h1 class="display-4">Provide Feedback for Student Notes!</h1>
   <form name="feedbackForm" action="provideFeedback.php" method="post">
     <div class="row mb-3 mx-3">
-     Professor Email:
-    <input type="text" placeholder='i.e xy1z23' class="form-control" name="professorEmail" required /> 
+     Notes ID:
+    <input type="text" class="form-control" name="notesId" required /> 
     </div> 
     <div class="row mb-3 mx-3">
      Feedback Comments:

@@ -62,6 +62,21 @@ function getFeedbackById($professorEmail) {
     return $results;
 }
 
+function getMajorYear($studentId) {
+    global $db;
+
+    $query = "SELECT * FROM Student NATURAL JOIN Student_Major WHERE studentID = :studentId;";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':studentId', $studentId);
+    $statement->execute();
+    
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    
+    return $results;
+}
+
 function getDepartments() {
     global $db;
 
@@ -72,6 +87,20 @@ function getDepartments() {
     $statement->closeCursor();
 
    return $departments;
+}
+
+function getCoursesTaught($professorEmail) {
+    global $db;
+
+    $query = "SELECT courseID from teaches WHERE professorEmail = :profEmail";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':profEmail', $professorEmail);
+    $statement->execute();
+    
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    
+    return $results;
 }
 
 function getCoursesInDepartment($departmentName) {
@@ -170,7 +199,7 @@ function updateRating($notesId, $rating, $raterId) {
 
 }   
 
-function provideFeedback($email, $feedback) {
+function provideFeedback($email, $notesId, $feedback) {
     global $db;
     try {
         $query = "SELECT * FROM Feedback";
@@ -181,6 +210,13 @@ function provideFeedback($email, $feedback) {
             $count++;
         }
         $fb_id = $count+1;
+        $query = "INSERT INTO Feedback VALUES (:feedbackID, :notesID, :description)";
+        
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':feedbackID', $fb_id);
+        $stmt->bindValue(':notesID', $notesId);
+        $stmt->bindValue(':description', $feedback);
+        $stmt->execute();
 
         $query = "INSERT INTO Provides VALUES (:profEmail, :feedbackID)";
         
@@ -190,17 +226,12 @@ function provideFeedback($email, $feedback) {
         $stmt->execute();
         $stmt->closeCursor();
 
-        $query = "INSERT INTO Feedback VALUES (:feedbackID, :description)";
-        
-        $stmt = $db->prepare($query);
-        $stmt->bindValue(':feedbackID', $fb_id);
-        $stmt->bindValue(':description', $feedback);
-        $stmt->execute();
+
 
         echo "Feedback added successfully!";
     } catch (PDOException $e) {
         if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
-            echo "Not a recognized Professor email. Please try again!";
+            echo $e->getMessage();//"Not a recognized Professor email. Please try again!";
         } else {
             echo "Error in adding feedback". $e->getMessage();;
         }

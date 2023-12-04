@@ -1,17 +1,22 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['email'])) {
-    header("Location: login_form.php");
-    exit;
-}
 
 
 
 require("connect-db.php");
 require("project-db.php");
 $list_of_notes = getNotesByStudentId($_SESSION['studentId']);
+$major_year_info = getMajorYear($_SESSION['studentId']);
+if (!empty($major_year_info) && isset($major_year_info[0])) {
+    $major = $major_year_info[0]['major'];
+    $year = $major_year_info[0]['year'];
+}
+else
+{
+    $major = "";
+    $year = "";
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
    if (!empty($_POST['delBtn']))
@@ -71,6 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <body>
     <div class="container">
         <h1>Welcome <?php echo $_SESSION['studentId'] ?></h1>
+        <div class="table-container">
+            <p><b>Major: </b> <?php echo $major; ?></p>
+            <p><b>Year: </b> <?php echo $year; ?></p>
+            </br>
+        </div>
         <div class="table-container">
         <table class="w3-table w3-bordered w3-card-4 center">
             <thead>
