@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$email, $pswd]);
 
     try {
-        $queryy = "SELECT * FROM Professor WHERE email = ? AND pswd = ?";
+        $queryy = "SELECT * FROM Professor WHERE professorEmail = ? AND pswd = ?";
         $stmtt = $db->prepare($queryy);
         $stmtt->execute([$email, $pswd]);
     } catch (PDOException $e) {
