@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "</div>";
     } else {
         echo "<div class='d-flex justify-content-center fixed-bottom mb-3'>";
-        echo "<a href='logout.php' class='btn btn-primary'>Log Out</a>";
+        echo "<a href='login_form.php' class='btn btn-primary'>Log Out</a>";
         echo "</div>";
     }
         ?>
