@@ -123,7 +123,11 @@ function rateNotes($notesId, $rating, $raterId) {
     } catch (PDOException $e) {
         if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
             echo "Not a valid Student ID. Please try again!";
-        } else {
+        } 
+        else if (strpos($e->getMessage(), 'CONSTRAINT') !== false){
+            echo "Please enter a rating within 1-5!";
+        }
+        else {
             echo "You have already rated these notes!";
         }
     }
