@@ -2,7 +2,7 @@
     $username = 'ay3xqa'; 
     $password = 'Fall2023';
     $host = 'mysql01.cs.virginia.edu';
-    $dbname = 'chf2pn_c';
+    $dbname = 'ay3xqa';
     $dsn = "mysql:host=$host;dbname=$dbname";
 
     try 
