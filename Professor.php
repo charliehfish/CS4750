@@ -11,15 +11,15 @@ if (!isset($_SESSION['email'])) {
 
 require("connect-db.php");
 require("project-db.php");
-$list_of_notes = getNotesByStudentId($_SESSION['studentId']);
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-   if (!empty($_POST['delBtn']))
-   {
-    deleteNotes($_POST['noteToDelete'], $_SESSION['studentId']);
-    $list_of_notes = getNotesByStudentId($_SESSION['studentId']);
-   }
-}
+$list_of_feedback = getFeedbackById($_SESSION['studentId']);
+// if ($_SERVER['REQUEST_METHOD'] == 'POST')
+// {
+//    if (!empty($_POST['delBtn']))
+//    {
+//     deleteNotes($_POST['noteToDelete'], $_SESSION['studentId']);
+//     $list_of_notes = getNotesByStudentId($_SESSION['studentId']);
+//    }
+// }
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,30 +70,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </head>
 <body>
     <div class="container">
-        <h1>Welcome <?php echo $_SESSION['studentId'] ?></h1>
+        <h1>Welcome <?php echo $_SESSION['email'] ?></h1>
         <div class="table-container">
         <table class="w3-table w3-bordered w3-card-4 center">
             <thead>
                 <tr>
-                    <th>Note ID</th>
-                    <th>Course ID</th>
-                    <th>Link</th>
-                    <th>Average Rating</th>
-                    <th>Date Created</th>
+                    <th>Feedback ID</th>
+                    <th>Notes ID</th>
                     <th>Description</th>
                 </tr>
             </thead>
             <tbody>
-            <?php foreach ($list_of_notes as $note): ?>
+            <?php foreach ($list_of_feedback as $feedback): ?>
                 <tr>
-                    <td><?php echo $note['notesID']; ?></td>
-                    <td><?php echo $note['courseID']; ?></td>        
-                    <td><a href="<?php echo $note['notesURL']; ?>">See Notes</a></td> 
-                    <td><?php echo $note['averageRating']; ?></td>        
-                    <td><?php echo $note['dateCreated']; ?></td>  
-                    <td><?php echo $note['description']; ?></td>  
+                    <td><?php echo $feedback['feedbackID']; ?></td>
+                    <td><?php echo $feedback['notesID']; ?></td>
+                    <td><?php echo $feedback['description']; ?></td>  
                     <td>
-                        <form action="User.php" method="post">
+                        <form action="Professor.php" method="post">
                         <input type="submit" value="Delete" name="delBtn" class="btn btn-danger"  />
                         <input type="hidden" name="noteToDelete"
                                     value="<?php echo $note['notesID'];?>"/>

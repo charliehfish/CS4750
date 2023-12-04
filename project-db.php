@@ -47,6 +47,21 @@ function getNotesByStudentId($studentId) {
     return $results;
 }
 
+function getFeedbackById($professorEmail) {
+    global $db;
+
+    $query = "SELECT * FROM Feedback NATURAL JOIN Provides WHERE professorEmail = :profEmail;";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':profEmail', $professorEmail);
+    $statement->execute();
+    
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    
+    return $results;
+}
+
 function getDepartments() {
     global $db;
 
@@ -118,7 +133,6 @@ function rateNotes($notesId, $rating, $raterId) {
         $stmt->bindValue(':rating', $rating);
         $stmt->execute();
         $stmt->closeCursor();
-
         echo "Your rating has been added successfully!";
     } catch (PDOException $e) {
         if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
@@ -129,9 +143,32 @@ function rateNotes($notesId, $rating, $raterId) {
         }
         else {
             echo "You have already rated these notes!";
-        }
+        } 
+
     }
 }
+
+function updateRating($notesId, $rating, $raterId) {
+    global $db;
+    try {
+        $stmt = $db->prepare("UPDATE Rates SET ratingScore = :rating WHERE notesID = :notesId AND studentID = :raterId");
+        $stmt->bindParam(':rating', $rating);
+        $stmt->bindParam(':notesId', $notesId);
+        $stmt->bindParam(':raterId', $raterId);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            echo "Rating updated successfully!";
+        } 
+        else {
+            echo "You have already rated these notes!";
+        }
+    } 
+    catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+
+}   
 
 function provideFeedback($email, $feedback) {
     global $db;
@@ -169,5 +206,24 @@ function provideFeedback($email, $feedback) {
         }
     }
 }
+
+function deleteNotes($notesId, $studentId) {
+    global $db;
+    try {
+        $deleteNotesStmt = $db->prepare("DELETE FROM Notes WHERE notesID = :notesId AND studentID = :studentId");
+        $deleteNotesStmt->bindParam(':notesId', $notesId);
+        $deleteNotesStmt->bindParam(':studentId', $studentId);
+        $deleteNotesStmt->execute();
+        if ($deleteNotesStmt->rowCount() > 0) {
+            echo "Record deleted successfully!";
+        } else {
+            echo "Error deleting record from Notes table.";
+        }
+    }
+    catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
 
 ?>
