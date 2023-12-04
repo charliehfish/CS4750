@@ -25,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->rowCount() > 0) {
         // Start the session and redirect to user page
         $_SESSION['email'] = $email;
+        $studentId = substr($email, 0, strpos($email, '@'));
+        $_SESSION['studentId'] = $studentId;
         header("Location: User.php");
         exit;
     } else {

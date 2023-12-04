@@ -32,6 +32,21 @@ function getAllNotes() {
     return $results;
 }
 
+function getNotesByStudentId($studentId) {
+    global $db;
+
+    $query = "SELECT * FROM Notes WHERE studentID = :studentId;";
+
+    $statement = $db->prepare($query);
+    $statement->bindValue(':studentId', $studentId);
+    $statement->execute();
+    
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    
+    return $results;
+}
+
 function getDepartments() {
     global $db;
 
