@@ -225,5 +225,23 @@ function deleteNotes($notesId, $studentId) {
     }
 }
 
+function deleteFeedback($feedbackId, $professorEmail) {
+    global $db;
+    try {
+        $deleteFeedbackStmt = $db->prepare("DELETE FROM Provides WHERE feedbackID = :feedbackId AND professorEmail = :profEmail");
+        $deleteFeedbackStmt->bindParam(':feedbackId', $feedbackId);
+        $deleteFeedbackStmt->bindParam(':profEmail', $professorEmail);
+        $deleteFeedbackStmt->execute();
+        if ($deleteFeedbackStmt->rowCount() > 0) {
+            echo "Record deleted successfully!";
+        } else {
+            echo "Error deleting record from Feedback table.";
+        }
+    }
+    catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
 
 ?>

@@ -38,8 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: User.php");
         exit;
     } elseif ($stmtt->rowCount() > 0) {
-        $_SESSION['email'] = $email;    
-        header("Location: homepage.php");
+        $_SESSION['professorEmail'] = $email; 
+        $profId = substr($email, 0, strpos($email, '@'));
+        $_SESSION['professorId'] = $profId;   
+        header("Location: Professor.php");
     } else {
         echo "Invalid email or password.";
     }

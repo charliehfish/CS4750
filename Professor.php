@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['email'])) {
+if (!isset($_SESSION['professorEmail'])) {
     header("Location: login_form.php");
     exit;
 }
@@ -11,15 +11,15 @@ if (!isset($_SESSION['email'])) {
 
 require("connect-db.php");
 require("project-db.php");
-$list_of_feedback = getFeedbackById($_SESSION['studentId']);
-// if ($_SERVER['REQUEST_METHOD'] == 'POST')
-// {
-//    if (!empty($_POST['delBtn']))
-//    {
-//     deleteNotes($_POST['noteToDelete'], $_SESSION['studentId']);
-//     $list_of_notes = getNotesByStudentId($_SESSION['studentId']);
-//    }
-// }
+$list_of_feedback = getFeedbackById($_SESSION['professorEmail']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+   if (!empty($_POST['delBtn']))
+   {
+    deleteFeedback($_POST['feedbackToDelete'], $_SESSION['professorEmail']);
+    $list_of_feedback = getFeedbackById($_SESSION['professorEmail']);
+   }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -56,7 +56,6 @@ $list_of_feedback = getFeedbackById($_SESSION['studentId']);
             background-color: #f2f2f2;
         }
         
-        /* Container styles */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -70,7 +69,7 @@ $list_of_feedback = getFeedbackById($_SESSION['studentId']);
 </head>
 <body>
     <div class="container">
-        <h1>Welcome <?php echo $_SESSION['email'] ?></h1>
+        <h1>Welcome <?php echo $_SESSION['professorId'] ?></h1>
         <div class="table-container">
         <table class="w3-table w3-bordered w3-card-4 center">
             <thead>
@@ -89,8 +88,8 @@ $list_of_feedback = getFeedbackById($_SESSION['studentId']);
                     <td>
                         <form action="Professor.php" method="post">
                         <input type="submit" value="Delete" name="delBtn" class="btn btn-danger"  />
-                        <input type="hidden" name="noteToDelete"
-                                    value="<?php echo $note['notesID'];?>"/>
+                        <input type="hidden" name="feedbackToDelete"
+                                    value="<?php echo $feedback['feedbackID'];?>"/>
                         </form>
                     </td>
                 </tr>
