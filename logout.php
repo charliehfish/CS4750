@@ -3,6 +3,6 @@ session_start();
 
 // Destroy the session to log the user out and redirect them to the login page
 if(session_destroy()) {
-    header("Location: login.php");
+    header("Location: login_form.php");
 }
 ?>
