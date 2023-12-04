@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// If the user is already logged in, redirect to the homepage
+// If the user is already logged in... Take them to the homepage
 if (isset($_SESSION['email'])) {
     header("Location: homepage.php");
     exit;
@@ -9,7 +9,7 @@ if (isset($_SESSION['email'])) {
 
 require("connect-db.php");
 
-// Check connection
+// Checks to see if there is a conncection
 if ($db === false) {
     die("ERROR: Could not connect. " . $db->errorInfo()[2]);
 }
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$email, $pswd]);
 
     if ($stmt->rowCount() > 0) {
-        // Start the session and redirect to user page
+        // Start the user state and takes them to the page.
         $_SESSION['email'] = $email;
         header("Location: User.php");
         exit;
