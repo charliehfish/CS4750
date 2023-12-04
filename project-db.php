@@ -108,29 +108,13 @@ function rateNotes($notesId, $rating, $raterId) {
     } catch (PDOException $e) {
         if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
             echo "Not a valid Student ID. Please try again!";
-        } else {
+        } 
+        else if (strpos($e->getMessage(), 'CONSTRAINT') !== false){
+            echo "Please enter a rating within 1-5!";
+        }
+        else {
             echo "You have already rated these notes!";
         }
-    }
-}
-
-function updateRating($notesId, $rating, $raterId) {
-    global $db;
-    try {
-        // Prepare and execute the SQL update statement
-        $stmt = $db->prepare("UPDATE Rates SET ratingScore = :rating WHERE notesID = :notesId AND studentID = :raterId");
-        $stmt->bindParam(':rating', $rating);
-        $stmt->bindParam(':notesId', $notesId);
-        $stmt->bindParam(':raterId', $raterId);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            echo "Rating updated successfully!";
-        } else {
-            echo "No rows were updated. Make sure the provided IDs exist.";
-        }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -168,64 +152,6 @@ function provideFeedback($email, $feedback) {
         } else {
             echo "Error in adding feedback". $e->getMessage();;
         }
-    }
-}
-
-// function deleteNotes($notesId, $studentId) {
-//     global $db;
-//     try {
-//         // Prepare and execute the SQL delete statement
-//         $stmt = $db->prepare("DELETE FROM Notes WHERE notesID = :notesId AND studentID = :studentId");
-//         $stmt->bindParam(':notesId', $notesId);
-//         $stmt->bindParam(':studentId', $studentId);
-//         $stmt->execute();
-
-//         if ($stmt->rowCount() > 0) {
-//             echo "Record deleted successfully!";
-//         } else {
-//             echo "No matching record found to delete.";
-//         }
-//     } catch (PDOException $e) {
-//         echo "Error: " . $e->getMessage();
-//     }
-// }
-
-function deleteNotes($notesId, $studentId) {
-    global $db;
-    try {
-        // Check if the provided notesId and studentId pair exists in Notes table
-        $checkStmt = $db->prepare("SELECT COUNT(*) as count FROM Notes WHERE notesID = :notesId AND studentID = :studentId");
-        $checkStmt->bindParam(':notesId', $notesId);
-        $checkStmt->bindParam(':studentId', $studentId);
-        $checkStmt->execute();
-        $result = $checkStmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($result['count'] > 0) {
-            // Delete related records from Rates table
-            $deleteRatesStmt = $db->prepare("DELETE FROM Rates WHERE notesID = :notesId");
-            $deleteRatesStmt->bindParam(':notesId', $notesId);
-            $deleteRatesStmt->execute();
-
-            // Delete row from Notes table if related records have been deleted
-            if ($deleteRatesStmt->rowCount() > 0) {
-                $deleteNotesStmt = $db->prepare("DELETE FROM Notes WHERE notesID = :notesId AND studentID = :studentId");
-                $deleteNotesStmt->bindParam(':notesId', $notesId);
-                $deleteNotesStmt->bindParam(':studentId', $studentId);
-                $deleteNotesStmt->execute();
-
-                if ($deleteNotesStmt->rowCount() > 0) {
-                    echo "Record deleted successfully!";
-                } else {
-                    echo "Error deleting record from Notes table.";
-                }
-            } else {
-                echo "No related records found in Rates table.";
-            }
-        } else {
-            echo "Invalid notesId and studentId pair in Notes table.";
-        }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
     }
 }
 
