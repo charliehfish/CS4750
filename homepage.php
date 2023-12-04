@@ -127,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if the user is not logged in
       if (!isset($_SESSION['email'])) {
     echo "<div class='d-flex justify-content-center fixed-bottom mb-3'>";
-    echo "<a href='login.php' class='btn btn-primary mr-2'>Log In</a>";
+    echo "<a href='login_form.php' class='btn btn-primary mr-2'>Log In</a>";
     echo "<a href='signup.php' class='btn btn-secondary'>Sign Up</a>";
     echo "</div>";
 }
