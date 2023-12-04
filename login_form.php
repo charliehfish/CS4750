@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// If the user is already logged in, redirect to the homepage
+if (isset($_SESSION['email'])) {
+    header("Location: homepage.php");
+    exit;
+}
+
 require("connect-db.php");
 
 // Check connection
@@ -16,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->rowCount() > 0) {
         // Start the session and redirect to user page
-        session_start();
         $_SESSION['email'] = $email;
         header("Location: user.php");
         exit;
