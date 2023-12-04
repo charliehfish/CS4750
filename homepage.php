@@ -121,14 +121,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
         <a href='homepage.php'>Return to start</a>
-        <?php
+        
+    </div>
+    <?php
         // Check if the user is not logged in
         if (!isset($_SESSION['email'])) {
             echo "<a href='login.php'>Log In</a>";
             echo "<a href='signup.php'>Sign Up</a>";
         }
         ?>
-    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
