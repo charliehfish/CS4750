@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<form action="signup.php" method="post">
+<form action="homepage.php" method="post">
     Student ID: <input type="text" name="studentID" maxlength="15"><br>
     Email: <input type="email" name="email" maxlength="255"><br>
     Password: <input type="password" name="pswd" maxlength="255"><br>
