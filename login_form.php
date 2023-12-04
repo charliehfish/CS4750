@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->rowCount() > 0) {
         // Start the session and redirect to user page
         $_SESSION['email'] = $email;
-        header("Location: user.php");
+        header("Location: User.php");
         exit;
     } else {
         echo "Invalid email or password.";
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<form action="login.php" method="post">
+<form action="login_form.php" method="post">
     Email: <input type="email" name="email" maxlength="255"><br>
     Password: <input type="password" name="pswd" maxlength="255"><br>
     <input type="submit" value="Log In">
