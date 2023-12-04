@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $last_name = $_POST['last_name'];
     $year = $_POST['year'];
 
-    $query = "INSERT INTO users (studentID, email, pswd, first_name, last_name, year) VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO Student (studentID, email, pswd, first_name, last_name, year) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $db->prepare($query);
     $stmt->execute([$studentID, $email, $pswd, $first_name, $last_name, $year]);
 }
