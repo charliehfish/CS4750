@@ -54,7 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <header>
-        <h1>Retrieve Notes!</h1>
+        <h1>Retrieve notes, <a href='addNotes.php'>add your own,</a> or <a href='giveRating.php'>leave a review!</a>
+
+        </h1>
     </header>
 
     <div id="departmentSection" class="container">
