@@ -22,6 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $db->prepare($query);
     $stmt->execute([$email, $pswd]);
 
+    try {
+        $queryy = "SELECT * FROM Professor WHERE email = ? AND pswd = ?";
+        $stmtt = $db->prepare($queryy);
+        $stmtt->execute([$email, $pswd]);
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+
     if ($stmt->rowCount() > 0) {
         // Start the user state and takes them to the page.
         $_SESSION['email'] = $email;
@@ -29,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['studentId'] = $studentId;
         header("Location: User.php");
         exit;
+    } elseif ($stmtt->rowCount() > 0) {
+        $_SESSION['email'] = $email;    
+        header("Location: homepage.php");
     } else {
         echo "Invalid email or password.";
     }
