@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <header>
         <?php if (isset($_SESSION['userType']) && $_SESSION['userType'] === 'student'): ?>
-            <h1>Retrieve notes, <a href='addNotes.php'>add your own,</a>, <a href='giveRating.php'>leave a review!</a>, or <a href='testingUpdate.php'>update a review!</a></h1>
+            <h1>Retrieve notes, <a href='addNotes.php'>add your own</a>, <a href='giveRating.php'>leave a review!</a>, or <a href='testingUpdate.php'>update a review!</a></h1>
         <?php elseif (isset($_SESSION['userType']) && $_SESSION['userType'] === 'professor'): ?>
             <h1><a href='provideFeedback.php'>Leave feedback!</a></h1>
         <?php endif; ?>
